@@ -100,6 +100,7 @@ exports.nestedFindWhere = function(itr, constraints, options) {
 			result.push(index);
 		}
 	}
+	if (options.onlyFirst) return -1;
 	return result;
 };
 
