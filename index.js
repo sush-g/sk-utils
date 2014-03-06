@@ -66,6 +66,43 @@ exports.unwindIndex = function (index) {
 	return result;
 };
 
+/*
+	An extension to underscore findWhere method, works with nested properties.
+	constraints -> [{fields: ['k1', 'k2', 'k3'], value: 'val'}, ...]
+	returns index / indexes
+*/
+exports.nestedFindWhere = function(itr, constraints, options) {
+	options = options || {};
+	result = []
+	for (var index = 0; index < itr.length; index++) {
+		var element = itr[index];
+		var isOk = true;
+		for (var i = 0; i < constraints.length; i++) {
+			var terminal = element;
+			for (var j = 0; j < constraints[i].fields.length; j++) {
+				if (_.isObject(terminal) && _.has(terminal, constraints[i].fields[j])) {
+					terminal = terminal[constraints[i].fields[j]];
+				} else {
+					isOk = false;
+					break;
+				}
+			}
+
+			if (!isOk || !_.isEqual(terminal, constraints[i].value)) {
+				isOk = false;
+				break;
+			}
+		}
+		if (isOk) {
+			if (options.onlyFirst) {
+				return index;
+			}
+			result.push(index);
+		}
+	}
+	return result;
+};
+
 // Serialize parameters in object for GET request.
 exports.serialize = function(obj) {
 	var str = [];
