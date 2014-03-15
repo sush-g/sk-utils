@@ -104,6 +104,24 @@ exports.nestedFindWhere = function(itr, constraints, options) {
 	return result;
 };
 
+var listify = function(itr) {
+	var list = [];
+	if (_.isString(itr)) {
+		list.push(itr);
+	} else if (_.isArray(itr)) {
+		_.each(itr, function(val) {
+			list = [].concat(list, listify(val));
+		});
+	} else if (_.isObject(itr)) {
+		_.each(itr, function(val, key) {
+			list = [].concat(list, listify(key), listify(val));
+		});
+	}
+	return list;
+};
+
+exports.listify = listify;
+
 // Serialize parameters in object for GET request.
 exports.serialize = function(obj) {
 	var str = [];

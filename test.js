@@ -2,6 +2,7 @@ var index = require('./index');
 var _ = require('underscore');
 
 var nestedFindWhere = index.nestedFindWhere;
+var listify = index.listify;
 
 var nestedFindWhereData = [
 	{
@@ -77,6 +78,21 @@ var nestedFindWhereConstraints = [
 	}
 ];
 
+var listifyData = [
+	{
+		genre: 'action',
+		similar: ['adventure', 'animation', '3-d']
+	},
+	{
+		subjects: null
+	},
+	[
+		{
+			'sub-genres': ['action-adventure', 'superhero', 'grandiose']
+		}
+	]
+];
+
 console.log(
 	_.isEqual(
 		nestedFindWhere(
@@ -94,5 +110,15 @@ console.log(
 			nestedFindWhereConstraints
 		),
 		[1,2,4]
+	)
+);
+
+console.log(
+	_.isEqual(
+		listify(listifyData),
+		[ 'genre', 'action', 'similar', 'adventure', 'animation',
+		  '3-d', 'subjects', 'sub-genres', 'action-adventure',
+		  'superhero', 'grandiose'
+		]
 	)
 );
