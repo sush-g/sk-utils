@@ -1,6 +1,6 @@
 {
   "name": "sk-utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Open project aimed jave Js utility functions",
   "main": "index.js",
   "scripts": {

@@ -118,6 +118,21 @@ exports.quickIntersection = function(l1, l2) {
   return result;
 };
 
+exports.quickDifference = function(l1, l2) {
+  l1 = l1 || [];
+  l2 = l2 || [];
+  var l1_index = {};
+  _.each(l1, function(elem) {
+    l1_index[elem] = null;
+  });
+  _.each(l2, function(elem) {
+    if (_.has(l1_index, elem)) {
+      delete l1_index[elem];
+    }
+  });
+  return _.keys(l1_index);
+};
+
 var listify = function(itr) {
   var list = [];
   if (_.isString(itr)) {
